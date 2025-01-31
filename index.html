@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generation Black TV</title>
+    <link href="https://fonts.googleapis.com/css2?family=Horizon:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', Horizon, sans-serif;
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        header {
+            background-color: #202020;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo img {
+            height: 100px;
+            width: auto;
+        }
+
+        nav {
+            margin-left: auto; /* Aligns nav to the right */
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: flex-end; /* Aligns menu items to the right */
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #ed0776;
+        }
+
+        .video-container {
+            width: 100%;
+            height: 60vh;
+            position: relative;
+            margin-top: 10px; /* Reduce space between the header and the video */
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+        }
+
+        h2 {
+            margin: 20px 0;
+            color: #ed0776;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 0; /* Reduce padding around the buttons */
+        }
+
+        .container div {
+            text-align: center;
+            margin-top: 20px; /* Reduce space between the video and the buttons */
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            grid-gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .grid-item {
+            text-align: center;
+            position: relative;
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+
+        .grid-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .info-box {
+            background-color: #ed0776;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .title {
+            font-family: 'Helvetica', sans-serif;
+            font-weight: bold;
+            font-size: 16px;
+            color: #fff;
+            margin: 0;
+        }
+
+        .details {
+            font-family: 'Helvetica', sans-serif;
+            font-size: 12px;
+            color: #fff;
+            margin: 5px 0 0;
+        }
+
+        footer {
+            background-color: #202020;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        footer a img {
+            width: 150px;
+            height: 60px;
+            margin: 0 10px;
+            transition: transform 0.3s;
+        }
+
+        /* Lightbox styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            color: #000;
+        }
+
+        .lightbox img {
+            height: 50px;
+            width: auto;
+            margin-bottom: 20px;
+        }
+
+        .lightbox input {
+            margin: 10px 0;
+            padding: 10px;
+            width: 80%;
+        }
+
+        .lightbox button {
+            background-color: #ed0776;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        /* Slider styles */
+        .slider {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            height: 100%; /* Ensure it takes up the full slider height */
+        }
+
+        .slider-content {
+            display: flex;
+            transition: transform 0.5s ease;
+            height: 100%;
+        }
+
+        .originals-slider {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .originals-item img {
+            max-width: 80%; /* Decrease this percentage to reduce the image size */
+            height: auto; /* Ensure the aspect ratio is maintained */
+            margin: 0 auto; /* Center the image horizontally */
+            display: block; /* Make sure the image is treated as a block-level element */
+        }
+
+        .title-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #ed0776;
+            text-align: center;
+        }
+
+        .arrow {
+            background-color: #ed0776;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 10px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+
+        .arrow.left {
+            left: 10px;
+        }
+
+        .arrow.right {
+            right: 10px;
+        }
+        /* Overlay styles */
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    flex-direction: column;
+}
+
+.video-overlay button {
+    padding: 15px 30px;
+    margin: 10px;
+    background-color: #ed0776;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s;
+}
+
+.video-overlay button:hover {
+    background-color: #ff2f8a;
+}
+
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .arrow {
+                padding: 5px;
+                font-size: 12px;
+            }
+
+            .info-box {
+                font-size: 14px;
+            }
+
+            h2 {
+                margin-top: 100px; /* Adjust this value for more or less space */
+            }
+        }
+
+        
+    </style>
+
+    <style>
+.ad-container {
+    display: flex;
+    justify-content: center; /* Centers the iframe horizontally */
+    margin: 20px 0; /* Optional: Add some vertical space */
+    height: 300px; /* Adjust this to the height of your largest ad */
+}
+
+.ad-container iframe {
+    max-width: 100%; /* Makes the iframe responsive */
+    height: 100%; /* Ensures iframe takes up full height of the container */
+    border: none; /* Optional: Remove border for cleaner look */
+}
+</style>
+
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="main.html"><img src="logo.png" alt="Logo"></a>
+        </div>
+        <nav>
+            <ul>
+                <!-- Add your navigation items here -->
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="video-container" id="video-player">
+        <video id="video" controls muted autoplay></video>
+    </div>
+
+    <div class="container" id="content">
+        <div>
+            <button id="genb-live" style="padding: 10px 20px; background-color: #ed0776; border: none; color: #fff; cursor: pointer;">GenB TV Live</button>
+            <button id="genb-movies" style="padding: 10px 20px; background-color: #ed0776; border: none; color: #fff; cursor: pointer; margin-left: 10px;">GenB Movies</button>
+        </div>
+    </div>
+
+    <div class="video-overlay" id="video-overlay">
+    <button id="overlay-genb-tv">GenB TV Live</button>
+    <button id="overlay-genb-movies">GenB Movies</button>
+</div>
+
+
+   <div class="ad-container"></div>
+
+<script type="text/javascript">
+
+    // Auto-play GenB TV or GenB Movies based on overlay button click
+document.getElementById('overlay-genb-tv').onclick = function () {
+    initializeHLS(genBTVUrl);
+    hideOverlay();
+};
+
+document.getElementById('overlay-genb-movies').onclick = function () {
+    initializeHLS(genBMoviesUrl);
+    hideOverlay();
+};
+
+// Function to hide overlay after selection
+function hideOverlay() {
+    document.getElementById('video-overlay').style.display = 'none';
+}
+
+// Default load GenB TV stream when overlay selection is skipped
+window.onload = function () {
+    initializeHLS(genBTVUrl); // Optional: load default if user doesn't select
+};
+
+
+    // Auto-play GenB TV feed on page load
+window.onload = function () {
+    initializeHLS(genBTVUrl);
+    video.play(); // Explicitly trigger play
+};
+    
+var adContainer = document.querySelector('.ad-container');
+var isMobile = window.matchMedia("(max-width: 768px)").matches; // Adjust breakpoint as needed
+
+if (isMobile) {
+    // Mobile Ad - 300x250
+    var rnd = window.rnd || Math.floor(Math.random() * 10e6);
+    var pid758571 = window.pid758571 || rnd;
+    var plc758571 = window.plc758571 || 0;
+    var abkw = window.abkw || '';
+    var absrc = 'https://servedbyadbutler.com/adserve/;ID=186097;size=300x250;setID=758571;type=iframe;sw=' + screen.width + ';sh=' + screen.height + ';spr=' + window.devicePixelRatio + ';kw=' + abkw + ';pid=' + pid758571 + ';place=' + (plc758571++) + ';rnd=' + rnd + '';
+    adContainer.innerHTML = '<iframe src="' + absrc + '" width="300" height="250" marginwidth="0" marginheight="0" hspace="0" vspace="0" frameborder="0" scrolling="no"></iframe>';
+} else {
+    // Desktop Ad - 728x90
+    var rnd = window.rnd || Math.floor(Math.random() * 10e6);
+    var pid758570 = window.pid758570 || rnd;
+    var plc758570 = window.plc758570 || 0;
+    var abkw = window.abkw || '';
+    var absrc = 'https://servedbyadbutler.com/adserve/;ID=186097;size=728x90;setID=758570;type=iframe;sw=' + screen.width + ';sh=' + screen.height + ';spr=' + window.devicePixelRatio + ';kw=' + abkw + ';pid=' + pid758570 + ';place=' + (plc758570++) + ';rnd=' + rnd + '';
+    adContainer.innerHTML = '<iframe src="' + absrc + '" width="728" height="90" marginwidth="0" marginheight="0" hspace="0" vspace="0" frameborder="0" scrolling="no"></iframe>';
+}
+</script>
+
+<style>
+.ad-container {
+    display: flex;
+    justify-content: center; /* Centers the iframe horizontally */
+    margin: 20px 0; /* Optional: Add some vertical space */
+}
+
+.ad-container iframe {
+    max-width: 100%; /* Makes the iframe responsive */
+    height: auto; /* Maintains aspect ratio */
+}
+</style>
+
+
+    <section>
+        <h2>Black History Month Special</h2>
+        <div class="grid-container" id="bhm"></div>
+    </section>
+
+
+    <section>
+        <h2>Top TV Shows</h2>
+        <div class="grid-container" id="tv-shows"></div>
+    </section>
+
+
+
+
+    <section>
+        <h2>Top Movies</h2>
+        <div class="grid-container" id="top-movies"></div>
+    </section>
+
+
+    <footer>
+        <p>© 2024 Generation Black TV. All rights reserved.</p>
+        <!-- Add footer links or images here -->
+    </footer>
+
+  <script>
+    const video = document.getElementById('video');
+    let hls = new Hls();
+
+    // URLs for the HLS streams
+    const genBTVUrl = "https://api-ott.badiversitymedia.com/loggingmediaurlpassthrough/a.m3u8?version=12&id=10&partner=genbtv";
+    const genBMoviesUrl = "https://api-ott.badiversitymedia.com/loggingmediaurlpassthrough/a.m3u8?version=12&id=678&partner=genbtv";
+
+    // Function to initialize HLS stream
+function initializeHLS(url) {
+    // Destroy existing HLS instance if any
+    if (hls) {
+        hls.destroy();
+        hls = null;
+    }
+
+    hls = new Hls();
+    hls.loadSource(url);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, function () {
+        video.play();
+    });
+
+    hls.on(Hls.Events.ERROR, function (event, data) {
+        if (data.fatal) {
+            console.error('Error occurred:', data);
+        }
+    });
+}
+
+    // Event listeners for buttons to switch between feeds
+    document.getElementById('genb-live').onclick = function () {
+        initializeHLS(genBTVUrl);
+    };
+
+    document.getElementById('genb-movies').onclick = function () {
+        initializeHLS(genBMoviesUrl);
+    };
+</script>
+
+</html>
+
+
+        <!-- GenB TV Originals -->
+<section>
+    <h2>GenB TV Originals</h2>
+    <div class="originals-slider" id="originals-slider">
+        <button class="arrow left" onclick="moveOriginals(-1)">❮</button>
+        <div class="slider">
+            <div class="originals-item">
+                <img src="TheEndZ.jpg" alt="Originals 1">
+                <div class="title-overlay">The Endz - Series 1</div>
+            </div>
+            <div class="originals-item" style="display: none;">
+                <img src="CityOfChampions.jpg" alt="Originals 2">
+                <div class="title-overlay">City Of Champions Documentary</div>
+            </div>
+            <div class="originals-item" style="display: none;">
+                <img src="BlueBearRises.jpg" alt="Originals 3">
+                <div class="title-overlay">The Blue Bear Rises Documentary</div>
+            </div>
+            <!-- Add more originals-item divs for more images -->
+        </div>
+        <button class="arrow right" onclick="moveOriginals(1)">❯</button>
+    </div>
+</section>
+
+    </div>
+
+  <footer>
+<div>
+    <a href="https://channelstore.roku.com/en-gb/details/d3057c164d20f2aea5b66f4be8814b06/genb-tv" target="_blank">
+        <img src="assets/roku-CvHPq_Zg.svg" class="footer-image" alt="Footer Image 1">
+    </a>
+    <a href="https://channelstore.roku.com/en-gb/details/d3057c164d20f2aea5b66f4be8814b06/genb-tv" target="_blank">
+        <img src="assets/android_tv-BqXq-qO-.svg" class="footer-image" alt="Footer Image 2">
+    </a>
+    <a href="https://channelstore.roku.com/en-gb/details/d3057c164d20f2aea5b66f4be8814b06/genb-tv" target="_blank">
+        <img src="assets/samsung_tv-DKglO2fy%20(1).svg" class="footer-image" alt="Footer Image 3">
+    </a>
+    <a href="https://channelstore.roku.com/en-gb/details/d3057c164d20f2aea5b66f4be8814b06/genb-tv" target="_blank">
+        <img src="assets/apple-DaqcImJZ.svg" class="footer-image" alt="Footer Image 1">
+    </a>
+    <a href="https://channelstore.roku.com/en-gb/details/d3057c164d20f2aea5b66f4be8814b06/genb-tv" target="_blank">
+        <img src="assets/lg_tv-C08nVWWG.svg" class="footer-image" alt="Footer Image 2">
+    </a>
+    <a href="https://channelstore.roku.com/en-gb/details/d3057c164d20f2aea5b66f4be8814b06/genb-tv" target="_blank">
+        <img src="assets/apple_tv-B73yrhVR.svg" class="footer-image" alt="Footer Image 3">
+    </a>
+</div>
+        <p>&copy; 2024 GenB TV. All rights reserved.</p>
+    </footer>
+
+
+    <!-- Lightbox for Name and Email -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <img src="logo.png" alt="Logo">
+            <h2>Welcome! Please Enter Your Details</h2>
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="email" id="email" placeholder="Your Email" required>
+            <button id="submit">Submit</button>
+        </div>
+    </div>
+
+    <script>
+        let currentOriginal = 0;
+
+        function moveOriginals(direction) {
+            const originalsItems = document.querySelectorAll('.originals-item');
+            originalsItems[currentOriginal].style.display = 'none';
+            currentOriginal = (currentOriginal + direction + originalsItems.length) % originalsItems.length;
+            originalsItems[currentOriginal].style.display = 'block';
+        }
+
+        // Check if user has submitted their details
+        function checkSubmission() {
+            return localStorage.getItem('userSubmitted') === 'true';
+        }
+
+async function saveToCloudflare(name, email) {
+    try {
+        const response = await fetch('https://genb-lightbox-collection.anandha-narayanan.workers.dev/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, email })
+        });
+        if (response.ok) {
+            console.log('Data saved successfully');
+        } else {
+            console.error('Failed to save data', response.status);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+
+        // Function to dynamically load BHM content, TV shows and movies
+        function loadMedia() {
+              const bhm = [
+                { title: "Brothers & Fathers", year: "Imoje Aikhoje", duration: "14 min", image: "BHM Content/BROTHERS_&_FATHERS_Poster_Lanscape.png" },
+                { title: "Sticks of Fury", year: "Yuan Hu", duration: "7 min", image: "BHM Content/Sticks of Fury Poster 2.jpg" },
+                { title: "Wireless", year: "Tayo Odesanya", duration: "3 min", image: "BHM Content/Wireless_TitleCard l24.jpg" },
+                { title: "Haunted By Her Ex", year: "Phil Osai", duration: "5 min", image: "BHM Content/HAUNTED BY EX.jpeg" },
+               { title: "F**KED", year: "Sara Harrak", duration: "6 min", image: "BHM Content/Landscape F__ked.jpeg" }
+                  
+            ];
+            
+            const shows = [
+                { title: "Blood Sweat and Tears", year: "2023", duration: "38 min", image: "Top 10 Documentary/Blood Sweat And Tears.jpg" },
+                { title: "From Gangs to Glory", year: "2023", duration: "29 min", image: "Top 10 Documentary/From Gangs to Glory.jpg" },
+                { title: "Caught in the Crossfire", year: "2023", duration: "27 min", image: "Top 10 Documentary/Caught in the Crossfire.jpg" },
+                { title: "Just Doing My Job", year: "2023", duration: "23 min", image: "Top 10 Documentary/Just Doing My Job.jpg" },
+                { title: "KATALINA", year: "2023", duration: "24 min", image: "Top 10 Documentary/KATALINA.png" },
+                { title: "The German Step-Father", year: "2021", duration: "35 min", image: "Top 10 Documentary/The German Step-Father.jpg" },
+               { title: "Back To Back", year: "2023", duration: "76 min", image: "Top 10 Documentary/hq720.jpg" },
+               { title: "Black Tax", year: "2023", duration: "400 min", image: "Top 10 Documentary/Black Tax.jpg" },
+                { title: "AUDACITY", year: "2021", duration: "60 min", image: "Top 10 Documentary/Audacity .png" },
+                { title: "Mystery Match ", year: "2021", duration: "200 min", image: "Top 10 Documentary/sddefault.jpg" },
+
+            ];
+
+            const movies = [
+                { title: "Dance Battle America", year: "2023", duration: "116 min", image: "Top 10 Movies/Dance Battle America.jpg" },
+                { title: "hear me move", year: "2021", duration: "97 min", image: "Top 10 Movies/hear me move.jpg" },
+                { title: "His Sickled Journey", year: "2020", duration: "51 min", image: "Top 10 Movies/His Sickled Journey.jpg" },
+                { title: "Knuckle City", year: "2019", duration: "119 min", image: "Top 10 Movies/Knuckle City.jpg" },
+                { title: "Letters of Hope", year: "2021", duration: "75 min", image: "Top 10 Movies/Letters of Hope.jpg" },
+                { title: "Light in the Dark", year: "2020", duration: "104 min", image: "Top 10 Movies/Light in the Dark.jpg" },
+                { title: "Paradise Stop", year: "2020", duration: "89 min", image: "Top 10 Movies/Paradise Stop.jpg" },
+                { title: "Assignment", year: "2020", duration: "92 min", image: "Top 10 Movies/Assignment.png" },
+               { title: "One Crazy Christmas", year: "2020", duration: "85 min", image: "Top 10 Movies/One Crazy Christmas.jpg" },
+                { title: "Wonderboy For President", year: "2020", duration: "87 min", image: "Top 10 Movies/Wonderboy for President Poster TUBI.jpg" },
+            ];
+
+            const bhmContainer = document.getElementById("bhm");
+            const tvShowsContainer = document.getElementById('tv-shows');
+            const moviesContainer = document.getElementById('top-movies');
+
+                 bhm.forEach(bhm => {
+                const bhmDiv = document.createElement('div');
+                bhmDiv.className = 'grid-item';
+                bhmDiv.innerHTML = `
+                    <img src="${bhm.image}" alt="${bhm.title}">
+                    <div class="info-box">
+                        <p class="title">${bhm.title}</p>
+                        <p class="details">${bhm.year} • ${bhm.duration}</p>
+                    </div>`;
+                bhmContainer.appendChild(bhmDiv);
+            });
+            
+            shows.forEach(show => {
+                const showDiv = document.createElement('div');
+                showDiv.className = 'grid-item';
+                showDiv.innerHTML = `
+                    <img src="${show.image}" alt="${show.title}">
+                    <div class="info-box">
+                        <p class="title">${show.title}</p>
+                        <p class="details">${show.year} • ${show.duration}</p>
+                    </div>`;
+                tvShowsContainer.appendChild(showDiv);
+            });
+
+            movies.forEach(movie => {
+                const movieDiv = document.createElement('div');
+                movieDiv.className = 'grid-item';
+                movieDiv.innerHTML = `
+                    <img src="${movie.image}" alt="${movie.title}">
+                    <div class="info-box">
+                        <p class="title">${movie.title}</p>
+                        <p class="details">${movie.year} • ${movie.duration}</p>
+                    </div>`;
+                moviesContainer.appendChild(movieDiv);
+            });
+        }
+
+        // Show lightbox if user hasn't submitted details
+        window.onload = function () {
+            if (!checkSubmission()) {
+                document.getElementById('lightbox').style.display = 'flex'; // Show lightbox
+            } else {
+                document.getElementById('content').style.display = 'block'; // Show content
+                loadMedia();
+            }
+        };
+
+        // Handle form submission
+    document.getElementById('submit').onclick = function () {
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    if (name && email) {
+        localStorage.setItem('userSubmitted', 'true'); // Mark user as submitted
+        saveToCloudflare(name, email); // Save to Cloudflare
+        document.getElementById('lightbox').style.display = 'none'; // Hide lightbox
+        document.getElementById('content').style.display = 'block'; // Show content
+        loadMedia(); // Load media
+    } else {
+        alert("Please fill in both fields.");
+    }
+};
+
+
+    </script>
+
+</body>
+
+</html>
