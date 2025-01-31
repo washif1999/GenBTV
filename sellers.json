@@ -1,0 +1,57 @@
+{
+  "sellers": [
+
+                {
+      "seller_id": 7926377,
+      "seller_type": "PUBLISHER",
+      "name": "Adnetplus",
+      "domain": "adnetplus.tv"
+    },
+            {
+      "seller_id": 311216,
+      "seller_type": "PUBLISHER",
+      "name": "Generation Black TV",
+      "domain": "www.generationblack.tv"
+    },
+    {
+      "seller_id": 188030,
+      "seller_type": "PUBLISHER",
+      "name": "GenB Magazine",
+      "domain": "www.genbmag.com"
+    },
+    {
+      "seller_id": 187256,
+      "seller_type": "PUBLISHER",
+      "name": "GenB USA",
+      "domain": "www.genbusa.com"
+    },
+    {
+      "seller_id": 186934,
+      "seller_type": "PUBLISHER",
+      "name": "ChapterZ Magazine",
+      "domain": "www.chapterzmagazine.com"
+    },
+       {
+      "seller_id": 305729,
+      "seller_type": "PUBLISHER",
+      "name": "ChapterZ USA",
+      "domain": "www.chapterzusa.com"
+    },
+       {
+      "seller_id": 187687,
+      "seller_type": "PUBLISHER",
+      "name": "Included Magazine",
+      "domain": "www.includedmag.com"
+    },
+       {
+      "seller_id": 186908,
+      "seller_type": "PUBLISHER",
+      "name": "HypeQ Magazine",
+      "domain": "www.hypeqmag.com"
+    },
+        {
+      "seller_id": 187255,
+      "seller_type": "PUBLISHER",
+      "name": "GenHX Mag",
+      "domain": "www.genhxmag.com"
+    },

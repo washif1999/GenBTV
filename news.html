@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- <meta charset="UTF-8"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>RSS Feed Cards</title>
+    <style>
+        .slider-container {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .card {
+            min-width: calc(25% - 15px);
+            height: 328px;
+            background: #413e3e;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .card h3 {
+            margin: 10px 0;
+            color: white;
+            height: 46px;
+            font-size: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .tag {
+            background: #06b170;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            width: 71px;
+        }
+
+        .tag-content {
+            color: white;
+        }
+
+        .slider-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+        @media (max-width: 1200px) {
+            .card {
+                min-width: calc(33.33% - 14px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                min-width: calc(50% - 10px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                min-width: calc(100% - 10px);
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="slider-container">
+        <button class="slider-button prev">←</button>
+        <button class="slider-button next">→</button>
+        <div class="slider" id="rss-feed"></div>
+
+        <script>
+
+
+            function parseBase64RSS(base64String) {
+                const base64Content = base64String.split(",")[1];
+
+                const xmlString = atob(base64Content);
+                const parser = new DOMParser();
+                const xml = parser.parseFromString(xmlString, "text/xml");
+                if (xml.querySelector("parsererror")) {
+                    console.error("Error parsing XML");
+                    return null;
+                }
+
+                return xml;
+            }
+            async function loadRSS() {
+                const rssUrl = 'https://www.ebony.com/category/entertainment/feed/'; // Replace with your RSS feed URL
+                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
+
+                try {
+                    const response = await fetch(proxyUrl);
+                    const data = await response.json();
+                    const parser = new DOMParser();
+                    const xml = parseBase64RSS(data?.contents)
+                    const items = xml.querySelectorAll("item");
+                    const feedContainer = document.getElementById("rss-feed");
+                    if (xml.getElementsByTagName("parsererror").length) {
+                        throw new Error("Error parsing XML");
+                    }
+
+                    items.forEach((item, index) => {
+                        console.log("item", item)
+                        if (index >= 10) return; // Show only first 10 items
+                        const title = item.querySelector("title")?.textContent;
+                        const link = item.querySelector("link")?.textContent;
+                        const media = item.querySelector("media\\:content, enclosure")?.getAttribute("url") || "https://via.placeholder.com/300";
+                        const category = item.querySelector("category")?.textContent;
+                        console.log("category", category)
+                        const itemDiv = document.createElement("div");
+                        itemDiv.className = "card";
+                        itemDiv.innerHTML = `
+                    <img src=${media} alt="Card 2">
+                    <div class="tag">
+                        <div class='tag-content'>${category}</div>
+                        </div>
+                    <h3>${title}</h3>
+                    `;
+
+
+
+                        feedContainer.appendChild(itemDiv);
+                    });
+                } catch (error) {
+                    console.error("Error fetching RSS feed:", error);
+                }
+
+                updateMeasurements()
+            }
+
+            let currentPosition = 0;
+            let cardWidth = 0;
+            let containerWidth = 0;
+            function updateMeasurements() {
+                const slider = document.querySelector('.slider');
+                const firstCard = document.querySelector('.card');
+                if (firstCard) {
+                    // Include gap in card width calculation
+                    cardWidth = firstCard.offsetWidth + 20;
+                    // Account for container padding in width calculation
+                    containerWidth = slider.parentElement.offsetWidth - 100;
+                }
+            }
+
+            function updateSliderPosition() {
+                const slider = document.querySelector('.slider');
+                slider.style.transform = `translateX(${currentPosition}px)`;
+            }
+
+            function initializeSlider() {
+                const slider = document.querySelector('.slider');
+                const prevButton = document.querySelector('.prev');
+                const nextButton = document.querySelector('.next');
+
+                prevButton.addEventListener('click', () => {
+                    // Move backwards by the width of visible cards
+                    const moveAmount = Math.min(containerWidth, cardWidth * 500);
+                    currentPosition = Math.min(0, currentPosition + moveAmount);
+                    updateSliderPosition();
+                });
+
+                nextButton.addEventListener('click', () => {
+                    // Move forwards by the width of visible cards
+                    const moveAmount = Math.min(containerWidth, cardWidth * 4);
+                    const maxScroll = -(slider.scrollWidth - containerWidth);
+                    currentPosition = Math.max(maxScroll, currentPosition - moveAmount);
+                    updateSliderPosition();
+                });
+
+                window.addEventListener('resize', () => {
+                    updateMeasurements();
+                    // Reset position on resize
+                    currentPosition = 0;
+                    updateSliderPosition();
+                });
+            }
+
+            async function init() {
+                await loadRSS();
+                initializeSlider();
+
+            }
+
+            init();
+
+        </script>
+    </div>
+</body>
+
+</html>

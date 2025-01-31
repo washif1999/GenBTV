@@ -1,0 +1,147 @@
+inventorypartnerdomain=generationblack.tv
+OWNERDOMAIN=generationblack.tv
+MANAGERDOMAIN=adnetplus.tv
+
+# XANDR
+xandr.com, 15870, RESELLER
+xandr.com, 15325, RESELLER
+xandr.com, 8833, RESELLER
+xandr.com, 15870, DIRECT
+appnexus.com, 15870, DIRECT, f5ab79cb980f11d1
+
+# TEADS
+teads.tv, 22625, DIRECT, 15a9c44f6d26cbe1
+
+# NEXXEN
+#DIRECT O&O APPS
+video.unrulymedia.com, 336577145, DIRECT
+#NON O&O APPS
+video.unrulymedia.com, 336577145, RESELLER
+
+# SHOWHEROES
+showheroes.com, 7327, DIRECT
+telaria.com, l2qly-o8w5q, RESELLER, 1a4e959a1b50034a
+tremorhub.com, l2qly-o8w5q, RESELLER, 1a4e959a1b50034a
+pubmatic.com, 156695, RESELLER
+freewheel.tv, 1581799, RESELLER
+freewheel.tv, 1581801, RESELLER
+google.com, pub-9829476400767085, RESELLER, f08c47fec0942fa0
+smartadserver.com, 3668, RESELLER
+onetag.com, 38980b46b0, RESELLER
+improvedigital.com, 1895, RESELLER
+lijit.com, 215294, RESELLER, fafdf38b16bf6b2b
+richaudience.com, Ua8BIWjxkR, RESELLER
+
+# DXCULTURE
+dxkulture.com, 0098, DIRECT, 259726033fc4df0c
+adswizz.com, dxkulture, DIRECT
+adswizz.com, 651, DIRECT
+pubmatic.com, 164751, RESELLER, 5d62403b186f2ace
+rubiconproject.com, 26094, DIRECT, 0bfd66d529a55807
+zetaglobal.net, 790, DIRECT
+ssp.disqus.com, 790, DIRECT
+video.unrulymedia.com, 946176315, RESELLER
+dxkulture.com,33449,DIRECT
+zetaglobal.net, 790, DIRECT
+rubiconproject.com, 26094, DIRECT, 0bfd66d529a55807
+video.unrulymedia.com, 946176315, RESELLER
+adswizz.com, dxkulture, DIRECT
+adswizz.com, 651, DIRECT
+pubmatic.com,164751,RESELLER,5d62403b186f2ace
+
+# ADIPOLO
+adipolo.com, 23085410371, DIRECT
+adipolosolutions.com, 23085410371, DIRECT
+pmbmonetize.com, 23085410371, DIRECT
+opamarketplace.com, 23085410371, DIRECT
+google.com, pub-9135355251665930, RESELLER, f08c47fec0942fa0 # Opa
+google.com, pub-2930805104418204, RESELLER, f08c47fec0942fa0 # GreeterAPL
+google.com, pub-4903453974745530, RESELLER, f08c47fec0942fa0 # APL
+google.com, pub-4836542095728076, RESELLER, f08c47fec0942fa0 # Positive
+freewheel.tv, 1227423, RESELLER
+freewheel.tv, 1233263, RESELLER
+themediagrid.com, DJQVCM, DIRECT, 35d5010d7789b49d
+video.unrulymedia.com, 270404831, RESELLER
+adform.com, 3035, DIRECT, 9f5210a2f0999e32
+adform.com, 3035, RESELLER, 9f5210a2f0999e32
+onetag.com, 61d88450bdb25bc, DIRECT
+onetag.com, 61d88450bdb25bc-OB, DIRECT
+loopme.com, 11647, RESELLER, 6c8d5f95897a5a3b
+
+# PUBMATIC
+pubmatic.com, 164407, RESELLER, 5d62403b186f2ace
+pubmatic.com, 680057, DIRECT
+pubmatic.com, 165202, RESELLER, 5d62403b186f2ace
+pubmatic.com, 161593, RESELLER, 5d62403b186f2ace
+pubmatic.com, 156557, RESELLER, 5d62403b186f2ace
+pubmatic.com, 156439, RESELLER, 5d62403b186f2ace
+pubmatic.com, 154037, RESELLER, 5d62403b186f2ace
+pubmatic.com, 156030, RESELLER, 5d62403b186f2ace
+pubmatic.com, 164407, RESELLER, 5d62403b186f2ace
+
+#VOLANTIS
+volantisdigital.com, 680057, DIRECT
+onetag.com, 7aa010307c47f25, DIRECT
+rubiconproject.com, 11006, RESELLER, 0bfd66d529a55807
+smartadserver.com, 4111, RESELLER
+google.com, pub-3769010358500643, RESELLER, f08c47fec0942fa0
+freewheel.tv, 20393, RESELLER
+freewheel.tv, 24377, RESELLER
+sharethrough.com, OjwJOhaP, RESELLER, d53b998a7bd4ecd2
+rubiconproject.com, 18694, RESELLER, 0bfd66d529a55807
+openx.com, 540274407, RESELLER, 6a698e2ec38604c6
+33across.com, 0013300001kQj2HAAS, RESELLER, bbea06d9c4d2853c
+smaato.com, 1100047713, RESELLER, 07bcf65f187117b4
+smartadserver.com, 4342, RESELLER
+smartadserver.com, 4012, RESELLER
+video.unrulymedia.com, 266978658, RESELLER
+smartadserver.com, 2933, RESELLER
+contextweb.com, 560288, RESELLER, 89ff185a4c4e857c
+rubiconproject.com, 16114, RESELLER, 0bfd66d529a55807
+rubiconproject.com, 13132, RESELLER, 0bfd66d529a55807
+openx.com, 537149888, RESELLER, 6a698e2ec38604c6
+groundtruth.com, 107, RESELLER, 81cbf0a75a5e0e9a
+districtm.io, 101760, RESELLER, 3fd707be9c4527c3
+loopme.com, s-2411, RESELLER, 6c8d5f95897a5a3b
+loopme.com, 5679, RESELLER, 6c8d5f95897a5a3b
+152media.com, 152, RESELLER
+appnexus.com, 11924, RESELLER, f5ab79cb980f11d1
+adcolony.com, 496220845654deec, RESELLER, 1ad675c9de6b5176
+appads.in, 107606, RESELLER
+rubiconproject.com, 24600, RESELLER, 0bfd66d529a55807
+rubiconproject.com, 17328, RESELLER, 0bfd66d529a55807
+
+#ANIVIEW
+aniview.com, 671131d00a520ac7400d874c, RESELLER, 671131d00a520ac7400d874c
+aniview.com, 671131d00a520ac7400d874c, DIRECT, 78b21b97965ec3f
+aps.amazon.com, 1ad7261b-91ea-4b6f-b9e9-b83522205b75, RESELLER
+google.com, pub-3565385483761681, RESELLER, f08c47fec0942fa0
+didna.io, 22652678936, RESELLER
+richaudience.com, 1ru8dKmJJV, RESELLER
+pubmatic.com, 81564, RESELLER, 5d62403b186f2ace
+pubmatic.com, 156538, RESELLER, 5d62403b186f2ace
+rubiconproject.com, 13510, RESELLER
+google.com, pub-6346866704322274, RESELLER, f08c47fec0942fa0
+lijit.com, 376385, RESELLER, fafdf38b16bf6b2b
+rubiconproject.com, 13918, RESELLER, 0bfd66d529a55807
+google.com, pub-4586415728471297, RESELLER, f08c47fec0942fa0
+playstream.media, 911, RESELLER
+gannett.com, 22652678936, RESELLER
+google.com, pub-5717092533913515, RESELLER, f08c47fec0942fa0"
+pubmatic.com, 160993, RESELLER, 5d62403b186f2ace
+pubmatic.com, 161335, RESELLER, 5d62403b186f2ace
+onetag.com, 57e618150c70d90, RESELLER
+sharethrough.com, UXUWG46h, RESELLER, d53b998a7bd4ecd2
+sharethrough.com, zLsEa05k, RESELLER, d53b998a7bd4ecd2
+themediagrid.com, PRLEZI, RESELLER, 35d5010d7789b49d
+criteo.com, B-068458, RESELLER, 9fac4a4a87c2a44f
+themediagrid.com, 4AJU2M, RESELLER, 35d5010d7789b49d
+google.com, pub-6479999173277695, RESELLER, f08c47fec0942fa0
+hindsightsolutions.net, 22652678936, RESELLER
+media.net, 8CU322PTV, RESELLER
+freewheel.tv, 1164257, RESELLER, 74e8e47458f74754
+freewheel.tv, 1164257-169843, RESELLER, 74e8e47458f74754
+freewheel.tv, 1164257-524565, RESELLER, 74e8e47458f74754
+freewheel.tv, 1164257-524565, RESELLER, 74e8e47458f74754
+freewheel.tv, 1157681, RESELLER, 74e8e47458f74754
+freewheel.tv, 1157665, RESELLER, 74e8e47458f74754
